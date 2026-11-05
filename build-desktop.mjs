@@ -1,0 +1,12 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { addAI } from './build-ai-common.mjs';
+const root = path.dirname(fileURLToPath(import.meta.url)), out = path.join(root, 'dist-desktop');
+await fs.mkdir(out, { recursive: true });
+const { html, files } = await addAI(await fs.readFile(path.join(root, 'TechnoWords.html'), 'utf8'));
+await fs.writeFile(path.join(out, 'TechnoWords.html'), html);
+for (const [name, body] of Object.entries(files)) await fs.writeFile(path.join(out, name), body);
+for (const name of ['Start-TechnoWords.ps1', 'Start-TechnoWords.cmd', 'README.txt']) await fs.copyFile(path.join(root, 'desktop', name), path.join(out, name));
+await fs.copyFile(path.join(root, 'AI-VALIDATION.md'), path.join(out, 'AI-VALIDATION.md'));
+console.log('dist-desktop: HTML + local runtime + Windows launcher, no Node installation needed.');

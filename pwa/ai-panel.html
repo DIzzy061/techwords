@@ -1,0 +1,13 @@
+<dialog data-ai id="ai-panel" aria-labelledby="ai-title"><div class="modal-body">
+  <div class="modal-header"><h2 id="ai-title">Проверка по смыслу · тестовая</h2><button class="close" id="ai-close" aria-label="Закрыть настройки ИИ">×</button></div>
+  <p class="modal-copy">Сначала проверяем словарь и опечатки. Если введённого перевода там нет, включённый ИИ оценит его на этом устройстве. Выбор из четырёх вариантов работает по словарю.</p>
+  <p class="modal-copy">Для первого запуска нужно скачать модель. Это большая загрузка; подключись к Wi-Fi. После загрузки проверь запуск без сети. Браузер может удалить кеш при нехватке места. Качество маленькой модели ещё проверяется.</p>
+  <label class="ai-label" for="ai-model">Модель</label><select id="ai-model" class="direction"><option value="1" selected>Qwen 2.5 · 1.5B</option><option id="ai-legacy-option" value="0" hidden>0.5B · только удаление старого кеша</option></select>
+  <p class="subtle" id="ai-model-note" hidden>Модель 0.5B отключена: она не прошла проверку качества. Её сохранённые файлы можно удалить.</p>
+  <p class="subtle" id="ai-device">Устройство ещё не проверено.</p><p class="subtle" id="ai-cache"></p>
+  <div class="ai-actions"><button class="button primary small" id="ai-load" disabled>Загрузить / открыть модель</button><button class="button small" id="ai-stop" disabled>Остановить ИИ</button><button class="text-button" id="ai-diagnose">Проверить устройство</button></div>
+  <p class="ai-state" id="ai-status" role="status">ИИ выключен.</p><progress id="ai-progress" max="1" value="0" hidden aria-label="Подготовка модели"></progress>
+  <label class="ai-label"><input type="checkbox" id="ai-enable" disabled> Проверять неизвестные переводы с ИИ</label>
+  <p class="modal-copy">ИИ даёт рекомендацию: любой новый перевод засчитывается после твоего подтверждения. Сохрани удачный перевод — затем он будет приниматься сразу, без модели и дополнительных подтверждений. Свои варианты можно удалить в разделе «Словарь».</p>
+  <button class="text-button" id="ai-delete" disabled>Удалить выбранную модель из кеша</button>
+</div></dialog>

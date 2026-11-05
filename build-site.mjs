@@ -1,0 +1,17 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
+import JSZip from 'jszip';
+const root = path.dirname(fileURLToPath(import.meta.url));
+const env = { ...process.env, TRAINER_NODE_MODULES: path.join(root, 'node_modules') };
+for (const script of ['ai-engine/build.mjs', 'build.mjs', 'build-pwa.mjs', 'build-desktop.mjs']) execFileSync(process.execPath, [script], { cwd: root, env, stdio: 'inherit' });
+const downloads = path.join(root, 'dist-pwa/downloads');
+await fs.mkdir(downloads, { recursive: true });
+await fs.copyFile(path.join(root, 'TechnoWords.html'), path.join(downloads, 'TechnoWords.html'));
+const zip = new JSZip();
+for (const entry of await fs.readdir(path.join(root, 'dist-desktop'), { withFileTypes: true })) if (entry.isFile()) zip.file(entry.name, await fs.readFile(path.join(root, 'dist-desktop', entry.name)));
+await fs.writeFile(path.join(downloads, 'TechnoWords-PC.zip'), await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE', compressionOptions: { level: 6 } }));
+const html = await fs.readFile(path.join(root, 'dist-pwa/index.html'), 'utf8');
+if (!html.includes('<script id="portable-state" type="application/json">null</script>')) throw new Error('Public build must start with no personal dictionary.');
+console.log('Public PWA and desktop downloads ready in dist-pwa.');

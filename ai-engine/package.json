@@ -1,0 +1,9 @@
+{
+  "name": "technowords-local-ai",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@mlc-ai/web-llm": "0.2.86",
+    "esbuild": "0.28.2"
+  }
+}

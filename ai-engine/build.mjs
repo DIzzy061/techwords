@@ -1,0 +1,15 @@
+import { build } from 'esbuild';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+const dir = path.dirname(fileURLToPath(import.meta.url));
+const out = path.join(dir, 'bundle');
+await fs.mkdir(out, { recursive: true });
+await build({ absWorkingDir: dir, entryPoints: { 'ai-runtime': 'client.mjs', 'ai-worker': 'worker.mjs' }, outdir: out, bundle: true, format: 'iife', platform: 'browser', target: ['es2022'], minify: true, legalComments: 'eof' });
+const resolvePackage = createRequire(import.meta.url);
+const packagePath = await fs.realpath(resolvePackage.resolve('@mlc-ai/web-llm/package.json'));
+const require = createRequire(packagePath);
+const logLicense = path.resolve(path.dirname(require.resolve('loglevel')), '../LICENSE-MIT');
+await fs.writeFile(path.join(out, 'WEBLLM-LICENSE.txt'), 'WebLLM (Apache 2.0)\n\n' + await fs.readFile(path.join(path.dirname(packagePath), 'LICENSE'), 'utf8') + '\n\nloglevel (MIT)\n\n' + await fs.readFile(logLicense, 'utf8'));
+console.log('WebLLM bundled locally. No model weights downloaded.');

@@ -1,0 +1,16 @@
+{
+  "name": "techwords",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build-site.mjs",
+    "test": "node --test tests/core.test.cjs tests/ai-core.test.mjs tests/excluded.test.cjs"
+  },
+  "dependencies": {
+    "@mlc-ai/web-llm": "0.2.86",
+    "esbuild": "0.28.2",
+    "jszip": "3.10.1",
+    "pako": "2.1.0"
+  }
+}
