@@ -9,6 +9,9 @@ for (const script of ['ai-engine/build.mjs', 'build.mjs', 'build-pwa.mjs', 'buil
 const downloads = path.join(root, 'dist-pwa/downloads');
 await fs.mkdir(downloads, { recursive: true });
 await fs.copyFile(path.join(root, 'TechnoWords.html'), path.join(downloads, 'TechnoWords.html'));
+const single = new JSZip();
+single.file('TechnoWords.html', await fs.readFile(path.join(root, 'TechnoWords.html')));
+await fs.writeFile(path.join(downloads, 'TechnoWords-HTML.zip'), await single.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' }));
 const zip = new JSZip();
 for (const entry of await fs.readdir(path.join(root, 'dist-desktop'), { withFileTypes: true })) if (entry.isFile()) zip.file(entry.name, await fs.readFile(path.join(root, 'dist-desktop', entry.name)));
 await fs.writeFile(path.join(downloads, 'TechnoWords-PC.zip'), await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE', compressionOptions: { level: 6 } }));

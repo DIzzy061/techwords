@@ -27,6 +27,8 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
   url.search = ''; url.hash = '';
+  // Download links must reach their actual file instead of the application shell.
+  if (url.href.startsWith(new URL('./downloads/', self.registration.scope).href)) return;
   if (event.request.mode === 'navigate' && url.href.startsWith(self.registration.scope)) {
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_NAME);

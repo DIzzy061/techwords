@@ -3,11 +3,11 @@
 ## Публикация — 05.11.2026
 
 Репозиторий: https://github.com/DIzzy061/techwords
-Сайт после успешного развёртывания: https://dizzy061.github.io/techwords/
+Опубликованный сайт: https://dizzy061.github.io/techwords/
 
 GitHub Actions (.github/workflows/pages.yml) устанавливает закреплённые npm-зависимости, выполняет 24 unit-теста, собирает PWA и ZIP для Windows, затем публикует dist-pwa на GitHub Pages. В Settings → Pages выбран источник GitHub Actions.
 
-Для разработки: npm ci, npm test, npm run build. Это исходный проект; файлы dist-pwa, dist-desktop, ai-engine/bundle и веса моделей в Git не коммитятся. Сборка создаёт downloads/TechnoWords-PC.zip и downloads/TechnoWords.html внутри сайта.
+Для разработки: npm ci, npm test, npm run build. Это исходный проект; файлы dist-pwa, dist-desktop, ai-engine/bundle и веса моделей в Git не коммитятся. Сборка создаёт downloads/TechnoWords-PC.zip, TechnoWords-HTML.zip и TechnoWords.html внутри сайта.
 
 Основные требования и описание архитектуры: TECHNOWORDS_AGENT_GUIDE.md. Подтверждённые результаты моделей: AI-VALIDATION.md. Сохраняйте ключ technowords.offline.v1 и обратную совместимость резервных копий.
 
@@ -21,3 +21,5 @@ GitHub Actions (.github/workflows/pages.yml) устанавливает закр
 4. При переносе браузерных UI-тестов из исходной локальной среды настройте Playwright и пути к браузеру; текущий CI выполняет чистые тесты логики.
 
 Пользовательские словари/прогресс хранятся на устройстве. Прежний file://, localhost и GitHub Pages имеют разные хранилища — перенос через JSON. Не добавляйте в публичный репозиторий личные Excel, резервные HTML/JSON с прогрессом, браузерные профили или веса моделей.
+
+Публикация успешно прошла, сайт/manifest/архив ПК возвращают HTTP200. Ссылки downloads обходят SPA-кеш service worker, чтобы браузер получал файл, а не оболочку приложения. Обычный HTML также упакован в отдельный ZIP.
